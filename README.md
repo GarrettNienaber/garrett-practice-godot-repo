@@ -1,2 +1,2 @@
-# PrivateGodotRepo
- Games I made in godot that are being kept private
+# PracticeGodotRepo
+ Games I made in godot that are for practice
