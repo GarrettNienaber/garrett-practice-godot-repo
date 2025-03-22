@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddr4rajfmwnpb"]
+
+[ext_resource type="PackedScene" uid="uid://b0dmsp0nms7cg" path="res://paddle.tscn" id="1_th0bb"]
+[ext_resource type="PackedScene" uid="uid://mjd3ikqe08am" path="res://ball.tscn" id="2_ne3au"]
+[ext_resource type="PackedScene" uid="uid://gpgsdvcut823" path="res://goal.tscn" id="3_jjgfe"]
+[ext_resource type="Script" uid="uid://do8fd2psdmuxf" path="res://ui.gd" id="5_l2myn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t3b6j"]
+size = Vector2(1152, 10)
+
+[node name="Arena" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="background" type="ColorRect" parent="CanvasLayer"]
+offset_right = 39.0
+offset_bottom = 38.0
+scale = Vector2(29.5364, 17.0515)
+color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[node name="centerline" type="ColorRect" parent="CanvasLayer"]
+offset_left = 572.0
+offset_right = 582.0
+offset_bottom = 844.0
+scale = Vector2(0.824937, 0.767451)
+
+[node name="Arena" type="StaticBody2D" parent="."]
+position = Vector2(576, -5)
+collision_layer = 2
+collision_mask = 0
+
+[node name="topwall" type="CollisionShape2D" parent="Arena"]
+shape = SubResource("RectangleShape2D_t3b6j")
+
+[node name="bottomwall" type="CollisionShape2D" parent="Arena"]
+position = Vector2(0, 658)
+shape = SubResource("RectangleShape2D_t3b6j")
+
+[node name="Paddle" parent="." instance=ExtResource("1_th0bb")]
+position = Vector2(64, 320)
+
+[node name="Ball" parent="." instance=ExtResource("2_ne3au")]
+position = Vector2(576, 320)
+
+[node name="Goal" parent="." instance=ExtResource("3_jjgfe")]
+collision_layer = 4
+collision_mask = 1
+script = null
+
+[node name="Goal2" parent="." instance=ExtResource("3_jjgfe")]
+position = Vector2(1152, 0)
+collision_layer = 4
+collision_mask = 1
+script = null
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_l2myn")
+
+[node name="Player1score" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 128.0
+offset_bottom = 64.0
+
+[node name="Player2score" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 1024.0
+offset_right = 1088.0
+offset_bottom = 64.0
+
+[connection signal="score" from="Ball" to="Control" method="_on_ball_score"]
+[connection signal="score2" from="Ball" to="Control" method="_on_ball_score_2"]
+[connection signal="body_entered" from="Goal" to="Ball" method="_on_goal_body_entered"]
+[connection signal="body_entered" from="Goal2" to="Ball" method="_on_goal_2_body_entered"]
